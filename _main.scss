@@ -1,0 +1,97 @@
+
+// Initialise config
+
+@mixin windbreakercss($config) {
+
+    // Variables
+
+    $separator: map-get($config, separator);
+    $utilities: map-get($config, utilities);
+    $breakpoints: map-get($config, breakpoints);
+
+    // Go through all the utilities and generate classes
+
+    @each $key, $utility in $utilities {
+        @include windbreakercss-utility($utility, $separator);
+        @if type-of($breakpoints) == 'map' and map-get($utility, responsive) == true {
+            @each $bp, $size in $breakpoints {
+                @media screen and (min-width: $size) {
+                    @include windbreakercss-utility($utility, $separator, $bp);
+                }
+            }
+        }
+    }
+
+}
+
+// Create utility
+
+@mixin windbreakercss-utility($config, $separator, $key: '') {
+
+    // Variables
+
+    $prefix: map-get($config, prefix);
+    $dark-mode: map-get($config, dark-mode);
+    $group: map-get($config, group);
+    $property: map-get($config, property);
+    $states: map-get($config, states);
+
+    // Create the prefix
+
+    @if $key != '' {
+        $key: $separator + $key;
+    }
+
+    // Go through each value
+
+    @each $name, $value in map-get($config, values) {
+
+        // Setup the selector
+
+        $selector: '.' + $prefix + $name + $key;
+
+        // Add state classes
+
+        @if type-of($states) == 'map' or type-of($states) == 'list' {
+            @each $state in $states {
+                $selector: $selector + ', .' + $state + $separator + $prefix + $name + ':' + $state;
+            }
+        }
+
+        // Add dark mode classes
+
+        @if $dark-mode == true {
+            $selector: $selector + ', .dark .' + $prefix + $name + $separator + 'dark' + $key;
+            @if type-of($states) == 'map' or type-of($states) == 'list' {
+                @each $state in $states {
+                    $selector: $selector + ', .dark .' + $state + $separator + $prefix + $name + $separator + 'dark' + $key + ':' + $state;
+                }
+            }
+        }
+
+        // Add group classes
+
+        @if type-of($group) == 'map' or type-of($group) == 'list' {
+            @each $state in $group {
+                @if $dark-mode == true {
+                    $selector: $selector + ', .dark .group:' + $state + ' .group' + $separator + $state + $separator + $prefix + $name + $separator + 'dark' + $key;
+                }
+                $selector: $selector + ', .group:' + $state + ' .group' + $separator + $state + $separator + $prefix + $name + $key;
+            }
+        }
+
+        // Create the classes
+
+        #{$selector} {
+            @if type-of($value) == 'map' or type-of($value) == 'list' {
+                @each $p, $v in $value {
+                    #{$p}: $v;
+                }
+            } @else {
+                #{$property}: $value;
+            }
+        }
+
+    }
+
+}

@@ -1,0 +1,30 @@
+{
+  "name": "windbreakercss",
+  "version": "1.0.0",
+  "description": "CSS Utility Class Framework Based on SASS",
+  "main": "_main.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/umarsheikh13/windbreakercss.git"
+  },
+  "keywords": [
+    "responsive",
+    "sass",
+    "rwd",
+    "media",
+    "css",
+    "utility",
+    "framework",
+    "scss",
+    "class"
+  ],
+  "author": "Umar Sheikh <hello@umarsheikh.co.uk> (https://umarsheikh.co.uk)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/umarsheikh13/windbreakercss/issues"
+  },
+  "homepage": "https://github.com/umarsheikh13/windbreakercss#readme"
+}
