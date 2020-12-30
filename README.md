@@ -1,16 +1,18 @@
 # WindbreakerCSS
 
-This is a css utility framework based on sass and inspired by [Bootstrap](https://getbootstrap.com/) and [TailwindCSS](https://tailwindcss.com/).
-
-It allows you to create utility classes easily by using the mixins provided.
+This is a css utility framework based on sass and inspired by [Bootstrap](https://getbootstrap.com/) and [TailwindCSS](https://tailwindcss.com/). It allows you to create utility classes easily by using the mixins provided.
 
 ## Installation
 
-`npm install windbreakercss`
+```
+npm install windbreakercss
+```
 
 or
 
-`yarn add windbreakercss`
+```
+yarn add windbreakercss
+```
 
 In your main scss file include the mixin:
 
@@ -100,7 +102,7 @@ This will generate the following css:
 ...
 ```
 
-To make things easier we've made another way to generate your classes and that's by creating a configuration map, see below for example:
+To make things easier we've added another way to setup your configuration and create classes, see example below:
 
 ```scss
 $config: (
@@ -147,9 +149,9 @@ $config: (
 
 NOTE: We've added the property `responsive` to the utility above and added breakpoints to the root of the config to generate all the responsive classes.
 
-### Values
+## Advanced Usage
 
-You can replace the values with maps and omit the `property` option.
+If you have more than one property you would like to create a utility from then instead of adding a value e.g. `#fff` you can add a map of different properties, see example below:
 
 ```scss
 $config: (
@@ -177,17 +179,18 @@ $config: (
 ## Configuration
 
 |Option|Description|Value|Output|
-|---|---|---|
+|---|---|---|---|
 |`prefix`|What the class names should begin with|String|`text-white`|
 |`dark-mode`|Enable dark mode classes|`true` or `false`|`.dark .dark:text-white`|
 |`group`|Enable group state classes. For example `group: hover focus`|Map/List|`.group:hover .group\:hover\:text-white`|
 |`states`|Enable state classes|Map/List|`hover\:text-white:hover`|
 |`property`|The CSS property which you would like to generate the classes for|String|N/A|
+|`responsive`|Enable responsive classes. This will only work when using the `windbreakercss` mixin.|`true` or `false`|N/A|
 |`values`|The values to generate the classes from|Map|See examples above|
 
 ## Classes
 
-When you enable all the options this is the CSS which is generated:
+When you enable all the options this is the CSS which is generated (see below). Make note of how the classes are named when enabling group, dark and responsive options.
 
 ```css
 .active\:text-white:active,
@@ -210,3 +213,15 @@ When you enable all the options this is the CSS which is generated:
 ## Purging
 
 As you can see above a lot of classes are generated so it's best to purge all the classes that aren't used in your website or app. We recommend using [PurgeCSS](https://github.com/FullHuman/purgecss).
+
+## Notes
+
+As you can see from some of the examples above, we've added quotes around the color names, this is due to sass converting them to hex colors.
+
+## Contributing
+
+1. Fork it!
+2. Create your feature/hotfix branch: git checkout -b feature/my-super-feature
+3. Commit your changes: git commit -m "Added some feature"
+4. Push to the branch: git push origin feature/my-super-feature
+5. Submit a pull request
