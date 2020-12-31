@@ -1,6 +1,20 @@
 # WindbreakerCSS
 
-This is a css utility framework based on sass and inspired by [Bootstrap](https://getbootstrap.com/) and [TailwindCSS](https://tailwindcss.com/). It allows you to create utility classes easily by using the mixins provided.
+This is a css utility framework based on sass and inspired by [Bootstrap](https://getbootstrap.com/) and [TailwindCSS](https://tailwindcss.com/). It allows you to create utility classes easily by using sass mixins.
+
+## Features
+
+- One unified config
+- State classes
+- Group state classes
+- Dark mode
+- Multi property classes
+
+## Roadmap
+
+- Include example config
+- Refactoring
+- More comments
 
 ## Installation
 
@@ -22,7 +36,7 @@ In your main scss file include the mixin:
 
 ## Usage
 
-Using the mixin is straight forward, just pass in the options and it'll generate the css.
+Create your utility config and pass it to the mixin `windbreakercss-utility` and it will genreate all the classes.
 
 ```scss
 $separator: '\\:';
@@ -43,7 +57,7 @@ $config: (
 @include windbreakercss-utility($config, $separator);
 ```
 
-This will generate the following css:
+Example of the css that will be generated:
 
 ```css
 .text-white {
@@ -86,7 +100,7 @@ $config: (
 }
 ```
 
-This will generate the following css:
+Example of the css that will be generated:
 
 ```css
 .text-white {
@@ -102,7 +116,7 @@ This will generate the following css:
 ...
 ```
 
-To make things easier we've added another way to setup your configuration and create classes, see example below:
+To make things easier we've added another way to setup your configuration and create classes. Create a configuration variable with the `separator`, `breakpoints` and `utilities` then pass this to the `windbreakercss` mixin. See example below:
 
 ```scss
 $config: (
@@ -147,11 +161,11 @@ $config: (
 @include windbreakercss($config);
 ```
 
-NOTE: We've added the property `responsive` to the utility above and added breakpoints to the root of the config to generate all the responsive classes.
+NOTE: We've added the property `responsive` to the utility above which is necessary to generate the responsive classes.
 
-## Advanced Usage
+## Multi Property Utilities
 
-If you have more than one property you would like to create a utility from then instead of adding a value e.g. `#fff` you can add a map of different properties, see example below:
+If you have more than one property you would like to create a utility from then you can pass a map to the values instead. In the example below we've added `border-color` and `color` to the utility values.
 
 ```scss
 $config: (
@@ -178,19 +192,19 @@ $config: (
 
 ## Configuration
 
-|Option|Description|Value|Output|
+|Option|Description|Value|Example|
 |---|---|---|---|
-|`prefix`|What the class names should begin with|String|`text-white`|
-|`dark-mode`|Enable dark mode classes|`true` or `false`|`.dark .dark:text-white`|
-|`group`|Enable group state classes. For example `group: hover focus`|Map/List|`.group:hover .group\:hover\:text-white`|
-|`states`|Enable state classes|Map/List|`hover\:text-white:hover`|
-|`property`|The CSS property which you would like to generate the classes for|String|N/A|
-|`responsive`|Enable responsive classes. This will only work when using the `windbreakercss` mixin.|`true` or `false`|N/A|
+|`prefix`|What the class names should begin with|String|`text-`|
+|`dark-mode`|Enable dark mode classes|true or false|`true`|
+|`group`|Enable group state classes|Sass List|`group: hover focus`|
+|`states`|Enable state classes|Sass List|`states: hover focus`|
+|`property`|The CSS property which you would like to generate the classes for|String|`text-align`|
+|`responsive`|Enable responsive classes. This will only work when using the `windbreakercss` mixin.|true or false|N/A|
 |`values`|The values to generate the classes from|Map|See examples above|
 
 ## Classes
 
-When you enable all the options this is the CSS which is generated (see below). Make note of how the classes are named when enabling group, dark and responsive options.
+When you enable all the options this is the css which is generated. Make note of how the classes are named when enabling group, dark and responsive options.
 
 ```css
 .active\:text-white:active,
@@ -212,11 +226,11 @@ When you enable all the options this is the CSS which is generated (see below). 
 
 ## Purging
 
-As you can see above a lot of classes are generated so it's best to purge all the classes that aren't used in your website or app. We recommend using [PurgeCSS](https://github.com/FullHuman/purgecss).
+As you can see a lot of classes are generated so it's best to purge all the classes that aren't used in your website or app by using something like [PurgeCSS](https://github.com/FullHuman/purgecss).
 
 ## Notes
 
-As you can see from some of the examples above, we've added quotes around the color names, this is due to sass converting them to hex colors.
+As you can see from some of the examples above we've added quotes around the color names, this is due to sass converting them to hex colors during processing.
 
 ## Contributing
 
