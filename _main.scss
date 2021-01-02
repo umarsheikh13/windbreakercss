@@ -83,7 +83,7 @@
         // Create the classes
 
         #{$selector} {
-            @if type-of($value) == 'map' or type-of($value) == 'list' {
+            @if type-of($value) == 'map' {
                 @each $p, $v in $value {
                     #{$p}: $v;
                 }
