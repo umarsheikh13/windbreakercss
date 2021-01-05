@@ -52,10 +52,18 @@
 
         // Add state classes
 
-        @if type-of($states) == 'map' or type-of($states) == 'list' {
+        @if type-of($states) == 'list' {
             @each $state in $states {
+                @if $dark-mode == true {
+                    $selector: $selector + ', .dark .' + $state + $separator + $prefix + $name + ':' + $state;
+                }
                 $selector: $selector + ', .' + $state + $separator + $prefix + $name + ':' + $state;
             }
+        } @else if type-of($states) == 'string' {
+            @if $dark-mode == true {
+                $selector: $selector + ', .dark .' + $states + $separator + $prefix + $name + ':' + $states;
+            }
+            $selector: $selector + ', .' + $states + $separator + $prefix + $name + ':' + $states;
         }
 
         // Add dark mode classes
@@ -71,13 +79,18 @@
 
         // Add group classes
 
-        @if type-of($group) == 'map' or type-of($group) == 'list' {
+        @if type-of($group) == 'list' {
             @each $state in $group {
                 @if $dark-mode == true {
                     $selector: $selector + ', .dark .group:' + $state + ' .group' + $separator + $state + $separator + $prefix + $name + $separator + 'dark' + $key;
                 }
                 $selector: $selector + ', .group:' + $state + ' .group' + $separator + $state + $separator + $prefix + $name + $key;
             }
+        } @else if type-of($group) == 'string' {
+            @if $dark-mode == true {
+                $selector: $selector + ', .dark .group:' + $group + ' .group' + $separator + $group + $separator + $prefix + $name + $separator + 'dark' + $key;
+            }
+            $selector: $selector + ', .group:' + $group + ' .group' + $separator + $group + $separator + $prefix + $name + $key;
         }
 
         // Create the classes
