@@ -98,8 +98,14 @@
         #{$selector} {
             @if type-of($value) == 'map' {
                 @each $p, $v in $value {
-                    #{$p}: $v;
+                    @if type-of($v) == 'string' {
+                        #{$p}: unquote($v);
+                    } @else {
+                        #{$p}: $v;
+                    }
                 }
+            } @else if type-of($value) == 'string' {
+                #{$property}: unquote($value);
             } @else {
                 #{$property}: $value;
             }
