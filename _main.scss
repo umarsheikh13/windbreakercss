@@ -70,10 +70,12 @@
 
         @if $dark-mode == true {
             $selector: $selector + ', .dark .' + $prefix + $name + $separator + 'dark' + $key;
-            @if type-of($states) == 'map' or type-of($states) == 'list' {
+            @if type-of($states) == 'list' {
                 @each $state in $states {
                     $selector: $selector + ', .dark .' + $state + $separator + $prefix + $name + $separator + 'dark' + $key + ':' + $state;
                 }
+            } @else if type-of($states) == 'string' {
+                $selector: $selector + ', .dark .' + $states + $separator + $prefix + $name + $separator + 'dark' + $key + ':' + $states;
             }
         }
 
