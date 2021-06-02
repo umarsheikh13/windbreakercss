@@ -1,6 +1,6 @@
 {
   "name": "windbreakercss",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "CSS Utility Class Framework Based on SASS",
   "main": "_main.scss",
   "scripts": {

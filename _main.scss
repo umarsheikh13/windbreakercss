@@ -24,6 +24,30 @@
 
 }
 
+// Output the css
+
+@mixin windbreakercss-output($selector, $property, $value, $important: false) {
+    $important-value: '';
+    @if $important == true {
+        $important-value: ' !important';
+    }
+    #{$selector} {
+        @if type-of($value) == 'map' {
+            @each $p, $v in $value {
+                @if type-of($v) == 'string' {
+                    #{$p}: #{unquote($v) + $important-value};
+                } @else {
+                    #{$p}: #{$v + $important-value};
+                }
+            }
+        } @else if type-of($value) == 'string' {
+            #{$property}: #{unquote($value) + $important-value};
+        } @else {
+            #{$property}: #{$value + $important-value};
+        }
+    }
+}
+
 // Create utility
 
 @mixin windbreakercss-utility($config, $separator, $key: '') {
@@ -46,7 +70,7 @@
 
     @each $name, $value in map-get($config, values) {
 
-        // Setup the selector
+        // Create the standard classes
 
         $selector: '.' + $prefix + $name + $key;
 
@@ -54,22 +78,34 @@
 
         @if type-of($states) == 'list' {
             @each $state in $states {
-                @if $dark-mode == true {
-                    $selector: $selector + ', .dark .' + $state + $separator + $prefix + $name + ':' + $state;
-                }
                 $selector: $selector + ', .' + $state + $separator + $prefix + $name + ':' + $state;
             }
         } @else if type-of($states) == 'string' {
-            @if $dark-mode == true {
-                $selector: $selector + ', .dark .' + $states + $separator + $prefix + $name + ':' + $states;
-            }
             $selector: $selector + ', .' + $states + $separator + $prefix + $name + ':' + $states;
         }
 
-        // Add dark mode classes
+        // Add group classes
+
+        @if type-of($group) == 'list' {
+            @each $state in $group {
+                $selector: $selector + ', .group:' + $state + ' .group' + $separator + $state + $separator + $prefix + $name + $key;
+            }
+        } @else if type-of($group) == 'string' {
+            $selector: $selector + ', .group:' + $group + ' .group' + $separator + $group + $separator + $prefix + $name + $key;
+        }
+
+        @include windbreakercss-output($selector, $property, $value);
+
+        // Add dark classes
 
         @if $dark-mode == true {
-            $selector: $selector + ', .dark .' + $prefix + $name + $separator + 'dark' + $key;
+
+            // Add standard class
+
+            $selector: '.dark .' + $prefix + $name + $separator + 'dark' + $key;
+
+            // Add state classes
+
             @if type-of($states) == 'list' {
                 @each $state in $states {
                     $selector: $selector + ', .dark .' + $state + $separator + $prefix + $name + $separator + 'dark' + $key + ':' + $state;
@@ -77,40 +113,19 @@
             } @else if type-of($states) == 'string' {
                 $selector: $selector + ', .dark .' + $states + $separator + $prefix + $name + $separator + 'dark' + $key + ':' + $states;
             }
-        }
 
-        // Add group classes
+            // Add group classes 
 
-        @if type-of($group) == 'list' {
-            @each $state in $group {
-                @if $dark-mode == true {
+            @if type-of($group) == 'list' {
+                @each $state in $group {
                     $selector: $selector + ', .dark .group:' + $state + ' .group' + $separator + $state + $separator + $prefix + $name + $separator + 'dark' + $key;
                 }
-                $selector: $selector + ', .group:' + $state + ' .group' + $separator + $state + $separator + $prefix + $name + $key;
-            }
-        } @else if type-of($group) == 'string' {
-            @if $dark-mode == true {
+            } @else if type-of($group) == 'string' {
                 $selector: $selector + ', .dark .group:' + $group + ' .group' + $separator + $group + $separator + $prefix + $name + $separator + 'dark' + $key;
             }
-            $selector: $selector + ', .group:' + $group + ' .group' + $separator + $group + $separator + $prefix + $name + $key;
-        }
+            
+            @include windbreakercss-output($selector, $property, $value, true);
 
-        // Create the classes
-
-        #{$selector} {
-            @if type-of($value) == 'map' {
-                @each $p, $v in $value {
-                    @if type-of($v) == 'string' {
-                        #{$p}: unquote($v);
-                    } @else {
-                        #{$p}: $v;
-                    }
-                }
-            } @else if type-of($value) == 'string' {
-                #{$property}: unquote($value);
-            } @else {
-                #{$property}: $value;
-            }
         }
 
     }
