@@ -78,10 +78,10 @@
 
         @if type-of($states) == 'list' {
             @each $state in $states {
-                $selector: $selector + ', .' + $state + $separator + $prefix + $name + ':' + $state;
+                $selector: $selector + ', .' + $state + $separator + $prefix + $name + $key + ':' + $state;
             }
         } @else if type-of($states) == 'string' {
-            $selector: $selector + ', .' + $states + $separator + $prefix + $name + ':' + $states;
+            $selector: $selector + ', .' + $states + $separator + $prefix + $name + $key + ':' + $states;
         }
 
         // Add group classes
